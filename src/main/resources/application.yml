@@ -1,0 +1,68 @@
+server:
+  port: 10050
+spring:
+  datasource:
+    dynamic:
+      p6spy: true
+      datasource:
+        # 开发环境数据源
+        jc_devlop:
+          driver-class-name: com.mysql.cj.jdbc.Driver
+          url: jdbc:mysql://127.0.0.1:3306/febs?useUnicode=true&characterEncoding=UTF-8&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC
+          username: root
+          password: 000
+        jc_product:
+          driver-class-name: com.mysql.cj.jdbc.Driver
+          url: jdbc:mysql://188.98.72.15:3306/febs?useUnicode=true&characterEncoding=UTF-8&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC
+          username: root
+          password: 000
+      primary: jc_devlop
+  aop:
+    proxy-target-class: true
+  messages:
+    encoding: UTF-8
+  jackson:
+    date-format: yyyy-MM-dd HH:mm:ss
+    time-zone: GMT+8
+  redis:
+    host: 192.168.0.4
+    port: 56379
+    password: jl2012
+    database: 3
+
+
+#mybatis plus 设置
+mybatis-plus:
+  type-aliases-package: cc.mrbird.febs.system.domain,cc.mrbird.febs.job.domain
+  mapper-locations: classpath:mapper/*/*.xml
+  configuration:
+    jdbc-type-for-null: null
+  global-config:
+    # 关闭 mybatis-plus的 banner
+    banner: false
+
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: ['httptrace', 'metrics']
+
+
+febs:
+  # 是否异步记录用户操作日志
+  openAopLog: true
+  # 单次最大批量入库数量
+  max:
+    batch:
+      insert:
+        num: 1000
+  shiro:
+    # 后端免认证接口 url
+    anonUrl: /login,/logout/**,/regist,/user/check/**
+    # token有效期，单位秒
+    jwtTimeOut: 3600
+
+
+
+
