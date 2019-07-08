@@ -3,7 +3,7 @@ package com.leqiang222.febs.common.service;
 import com.leqiang222.febs.system.domain.Menu;
 import com.leqiang222.febs.system.domain.Role;
 import com.leqiang222.febs.system.domain.User;
-import org.apache.catalina.startup.UserConfig;
+import com.leqiang222.febs.system.domain.UserConfig;
 
 import java.util.List;
 
@@ -14,6 +14,11 @@ import java.util.List;
  * @Modified By:
  */
 public interface CacheService {
+    /**
+     * 测试 Redis是否连接成功
+     */
+    void testConnect() throws Exception;
+
     /**
      * 从缓存中获取用户
      *
@@ -47,9 +52,66 @@ public interface CacheService {
     UserConfig getUserConfig(String userId) throws Exception;
 
     /**
+     * 缓存用户信息，只有当用户信息是查询出来的，完整的，才应该调用这个方法
+     * 否则需要调用下面这个重载方法
+     *
+     * @param user 用户信息
+     */
+    void saveUser(User user) throws Exception;
+
+    /**
      * 缓存用户信息
      *
      * @param username 用户名
      */
     void saveUser(String username) throws Exception;
+
+    /**
+     * 缓存用户角色信息
+     *
+     * @param username 用户名
+     */
+    void saveRoles(String username) throws Exception;
+
+    /**
+     * 缓存用户权限信息
+     *
+     * @param username 用户名
+     */
+    void savePermissions(String username) throws Exception;
+
+    /**
+     * 缓存用户个性化配置
+     *
+     * @param userId 用户 ID
+     */
+    void saveUserConfigs(String userId) throws Exception;
+
+    /**
+     * 删除用户信息
+     *
+     * @param username 用户名
+     */
+    void deleteUser(String username) throws Exception;
+
+    /**
+     * 删除用户角色信息
+     *
+     * @param username 用户名
+     */
+    void deleteRoles(String username) throws Exception;
+
+    /**
+     * 删除用户权限信息
+     *
+     * @param username 用户名
+     */
+    void deletePermissions(String username) throws Exception;
+
+    /**
+     * 删除用户个性化配置
+     *
+     * @param userId 用户 ID
+     */
+    void deleteUserConfigs(String userId) throws Exception;
 }

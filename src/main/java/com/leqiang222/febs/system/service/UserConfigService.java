@@ -1,7 +1,7 @@
 package com.leqiang222.febs.system.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
-import org.apache.catalina.startup.UserConfig;
+import com.leqiang222.febs.system.domain.UserConfig;
 
 /**
  * @Author LeQiang Li

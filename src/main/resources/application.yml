@@ -10,12 +10,12 @@ spring:
           driver-class-name: com.mysql.cj.jdbc.Driver
           url: jdbc:mysql://127.0.0.1:3306/febs?useUnicode=true&characterEncoding=UTF-8&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC
           username: root
-          password: 000
+          password: "000"
         jc_product:
           driver-class-name: com.mysql.cj.jdbc.Driver
-          url: jdbc:mysql://188.98.72.15:3306/febs?useUnicode=true&characterEncoding=UTF-8&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC
+          url: jdbc:mysql://127.0.0.1:3306/febs?useUnicode=true&characterEncoding=UTF-8&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC
           username: root
-          password: 000
+          password: "000"
       primary: jc_devlop
   aop:
     proxy-target-class: true
@@ -25,10 +25,16 @@ spring:
     date-format: yyyy-MM-dd HH:mm:ss
     time-zone: GMT+8
   redis:
-    host: 192.168.0.4
-    port: 56379
-    password: jl2012
-    database: 3
+      host: 192.168.0.4
+      port: 56379
+      password: jl2012
+      jedis:
+        pool:
+          min-idle: 8
+          max-idle: 500
+          max-active: 2000
+          max-wait: 10000
+      timeout: 0
 
 
 #mybatis plus 设置

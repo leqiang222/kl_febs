@@ -5,11 +5,11 @@ import com.leqiang222.febs.common.utils.FebsUtil;
 import com.leqiang222.febs.system.domain.Menu;
 import com.leqiang222.febs.system.domain.Role;
 import com.leqiang222.febs.system.domain.User;
+import com.leqiang222.febs.system.domain.UserConfig;
 import com.leqiang222.febs.system.service.MenuService;
 import com.leqiang222.febs.system.service.RoleService;
 import com.leqiang222.febs.system.service.UserConfigService;
 import com.leqiang222.febs.system.service.UserService;
-import org.apache.catalina.startup.UserConfig;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
