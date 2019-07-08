@@ -27,8 +27,16 @@ public class EncryptUtil {
         decryptCipher.init(Cipher.DECRYPT_MODE, key);
     }
 
+    private byte[] encrypt(byte[] arrB) throws Exception {
+        return encryptCipher.doFinal(arrB);
+    }
+
     String encrypt(String strIn) throws Exception {
         return byteArr2HexStr(encrypt(strIn.getBytes()));
+    }
+
+    private byte[] decrypt(byte[] arrB) throws Exception {
+        return decryptCipher.doFinal(arrB);
     }
 
     String decrypt(String strIn) {

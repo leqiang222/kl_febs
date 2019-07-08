@@ -13,7 +13,7 @@ public class ShiroProperties {
     private String anonUrl;
 
     /**
-     * token默认有效时间 1天
+     * 单位秒，token默认有效时间 1天
      */
     private Long jwtTimeOut = 86400L;
 }

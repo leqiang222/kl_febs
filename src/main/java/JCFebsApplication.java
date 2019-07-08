@@ -16,7 +16,6 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 @EnableAsync
 public class JCFebsApplication {
     public static void main(String[] args) {
-        new SpringApplicationBuilder(JCFebsApplication.class)
-                .run(args);
+        new SpringApplicationBuilder(JCFebsApplication.class).run(args);
     }
 }

@@ -45,7 +45,7 @@ public class JWTUtil {
     }
 
     /**
-     * 从 token中获取用户名
+     * 从 token中获取用户名 llq-为什么这里能从token中获取用户名
      *
      * @return token中包含的用户名
      */
