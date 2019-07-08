@@ -1,6 +1,7 @@
 package com.leqiang222.febs.common.utils;
 
 import com.leqiang222.febs.common.domain.FebsConstant;
+import com.leqiang222.febs.common.function.CacheSelector;
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.function.Supplier;
