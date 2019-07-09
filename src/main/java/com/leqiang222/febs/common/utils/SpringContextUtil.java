@@ -3,6 +3,7 @@ package com.leqiang222.febs.common.utils;
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
+import org.springframework.stereotype.Component;
 
 /**
  * @Author LeQiang Li
@@ -10,6 +11,7 @@ import org.springframework.context.ApplicationContextAware;
  * @Description:
  * @Modified By:
  */
+@Component
 public class SpringContextUtil implements ApplicationContextAware {
     private static ApplicationContext applicationContext;
 
