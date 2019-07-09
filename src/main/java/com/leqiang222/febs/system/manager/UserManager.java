@@ -1,7 +1,10 @@
 package com.leqiang222.febs.system.manager;
 
+import com.leqiang222.febs.common.domain.router.RouterMeta;
+import com.leqiang222.febs.common.domain.router.VueRouter;
 import com.leqiang222.febs.common.service.CacheService;
 import com.leqiang222.febs.common.utils.FebsUtil;
+import com.leqiang222.febs.common.utils.TreeUtil;
 import com.leqiang222.febs.system.domain.Menu;
 import com.leqiang222.febs.system.domain.Role;
 import com.leqiang222.febs.system.domain.User;
@@ -13,6 +16,7 @@ import com.leqiang222.febs.system.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -85,5 +89,28 @@ public class UserManager {
         return FebsUtil.selectCacheByTemplate(
                 () -> this.cacheService.getUserConfig(userId),
                 () -> this.userConfigService.findByUserId(userId));
+    }
+
+    /**
+     * 通过用户名构建 Vue路由
+     *
+     * @param username 用户名
+     * @return 路由集合
+     */
+    public ArrayList<VueRouter<Menu>> getUserRouters(String username) {
+        List<VueRouter<Menu>> routes = new ArrayList<>();
+        List<Menu> menus = this.menuService.findUserMenus(username);
+        menus.forEach(menu -> {
+            VueRouter<Menu> route = new VueRouter<>();
+            route.setId(menu.getMenuId().toString());
+            route.setParentId(menu.getParentId().toString());
+            route.setIcon(menu.getIcon());
+            route.setPath(menu.getPath());
+            route.setComponent(menu.getComponent());
+            route.setName(menu.getMenuName());
+            route.setMeta(new RouterMeta(true, null));
+            routes.add(route);
+        });
+        return TreeUtil.buildVueRouter(routes);
     }
 }

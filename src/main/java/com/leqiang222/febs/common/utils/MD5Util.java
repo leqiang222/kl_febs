@@ -28,6 +28,6 @@ public class MD5Util {
     }
 
     public static void main(String[] args) {
-        System.out.println(encrypt("mrbird","1234qwer"));
+        System.out.println(encrypt("leqiang222","666666"));
     }
 }

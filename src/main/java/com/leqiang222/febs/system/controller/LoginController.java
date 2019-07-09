@@ -19,10 +19,10 @@ import com.leqiang222.febs.system.manager.UserManager;
 import com.leqiang222.febs.system.service.LoginLogService;
 import com.leqiang222.febs.system.service.UserService;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.constraints.NotBlank;
@@ -142,4 +142,38 @@ public class LoginController {
         Map<String, Object> userInfo = this.generateUserInfo(jwtToken, user);
         return new FebsResponse().message("认证成功").data(userInfo);
     }
+
+    @DeleteMapping("kickout/{id}")
+    @RequiresPermissions("user:kickout")
+    public void kickout(@NotBlank(message = "{required}") @PathVariable String id) throws Exception {
+        String now = DateUtil.formatFullTime(LocalDateTime.now());
+        Set<String> userOnlineStringSet = redisService.zrangeByScore(FebsConstant.ACTIVE_USERS_ZSET_PREFIX, now, "+inf");
+        ActiveUser kickoutUser = null;
+        String kickoutUserString = "";
+        for (String userOnlineString : userOnlineStringSet) {
+            ActiveUser activeUser = mapper.readValue(userOnlineString, ActiveUser.class);
+            if (StringUtils.equals(activeUser.getId(), id)) {
+                kickoutUser = activeUser;
+                kickoutUserString = userOnlineString;
+            }
+        }
+        if (kickoutUser != null && StringUtils.isNotBlank(kickoutUserString)) {
+            // 删除 zset中的记录
+            redisService.zrem(FebsConstant.ACTIVE_USERS_ZSET_PREFIX, kickoutUserString);
+            // 删除对应的 token缓存
+            redisService.del(FebsConstant.TOKEN_CACHE_PREFIX + kickoutUser.getToken() + "." + kickoutUser.getIp());
+        }
+    }
+
+    @GetMapping("logout/{id}")
+    public void logout(@NotBlank(message = "{required}") @PathVariable String id) throws Exception {
+        this.kickout(id);
+    }
+
+//    @PostMapping("regist")
+//    public void regist(
+//            @NotBlank(message = "{required}") String username,
+//            @NotBlank(message = "{required}") String password) throws Exception {
+//        this.userService.regist(username, password);
+//    }
 }

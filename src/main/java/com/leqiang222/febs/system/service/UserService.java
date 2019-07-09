@@ -24,4 +24,12 @@ public interface UserService extends IService<User> {
      * @return user
      */
     User findByName(String username);
+
+    /**
+     * 注册用户
+     *
+     * @param username 用户名
+     * @param password 密码
+     */
+//    void regist(String username, String password) throws Exception;
 }
