@@ -29,9 +29,9 @@ public class FebsUtil {
             if (t == null) {
                 // 没有记录再查询数据库
                 return databaseSelector.get();
-            } else {
-                return t;
             }
+            return t;
+
         } catch (Exception e) {
             // 缓存查询出错，则去数据库查询
             log.error("redis error：", e);

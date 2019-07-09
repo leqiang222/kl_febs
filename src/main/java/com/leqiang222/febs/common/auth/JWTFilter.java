@@ -17,7 +17,7 @@ import javax.servlet.http.HttpServletRequest;
 /**
  * @Author LeQiang Li
  * @Date Created in 10:02 2019/7/8
- * @Description:
+ * @Description: 拦截器
  * @Modified By:
  */
 @Slf4j
@@ -26,9 +26,14 @@ public class JWTFilter extends BasicHttpAuthenticationFilter {
     private static final String TOKEN = "Authentication";
     private AntPathMatcher pathMatcher = new AntPathMatcher();
 
+    /*
+     * 是否允许访问
+     */
     @Override
     protected boolean isAccessAllowed(ServletRequest request, ServletResponse response, Object mappedValue) throws UnauthorizedException {
         HttpServletRequest httpServletRequest = (HttpServletRequest) request;
+
+        // 获取后端免认证接口数组
         FebsProperties febsProperties = SpringContextUtil.getBean(FebsProperties.class);
         String[] anonUrl = StringUtils.splitByWholeSeparatorPreserveAllTokens(febsProperties.getShiro().getAnonUrl(), StringPool.COMMA);
 
@@ -40,12 +45,16 @@ public class JWTFilter extends BasicHttpAuthenticationFilter {
             }
         }
 
+        // 请求头是否有token
         if (isLoginAttempt(request, response)) {
             return executeLogin(request, response);
         }
         return false;
     }
 
+    /*
+     * 请求头是否有token来判断是否需要重新登录
+     */
     @Override
     protected boolean isLoginAttempt(ServletRequest request, ServletResponse response) {
         HttpServletRequest req = (HttpServletRequest) request;

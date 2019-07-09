@@ -41,6 +41,7 @@ public class ShiroRealm extends AuthorizingRealm {
      */
     @Override
     protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principalCollection) {
+        // 根据token获取username
         String username = JWTUtil.getUsername(principalCollection.toString());
 
         SimpleAuthorizationInfo simpleAuthorizationInfo = new SimpleAuthorizationInfo();
@@ -64,13 +65,14 @@ public class ShiroRealm extends AuthorizingRealm {
      */
     @Override
     protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken authenticationToken) throws AuthenticationException {
-        // 这里的 token是从 JWTFilter 的 executeLogin 方法传递过来的，已经经过了解密
+        // 1.1 这里的 token是从 JWTFilter 的 executeLogin 方法传递过来的，已经经过了解密
         String token = (String) authenticationToken.getCredentials();
 
-        // 从 redis里获取这个 token
+        // 1.2 从 redis里获取这个 token
         HttpServletRequest request = HttpContextUtil.getHttpServletRequest();
         String ip = IPUtil.getIpAddr(request);
 
+        // 1.3 对请求过来的token和存储在redis的token做对比
         String encryptToken = FebsUtil.encryptToken(token);
         String encryptTokenInRedis = null;
 

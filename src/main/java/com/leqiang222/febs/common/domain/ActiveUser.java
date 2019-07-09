@@ -3,6 +3,7 @@ package com.leqiang222.febs.common.domain;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.leqiang222.febs.common.utils.DateUtil;
 import lombok.Data;
+import lombok.ToString;
 import org.apache.commons.lang3.RandomStringUtils;
 
 import java.io.Serializable;
@@ -15,6 +16,7 @@ import java.time.LocalDateTime;
  * @Modified By:
  */
 @Data
+@ToString
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class ActiveUser implements Serializable {
     private static final long serialVersionUID = 2055229953429884344L;

@@ -62,9 +62,9 @@ public class RedisConfig extends CachingConfigurerSupport {
         jedisPoolConfig.setMaxWaitMillis(maxWaitMillis);
         if (StringUtils.isNotBlank(password)) {
             return new JedisPool(jedisPoolConfig, host, port, timeout, password, database);
-        } else {
-            return new JedisPool(jedisPoolConfig, host, port, timeout, null, database);
         }
+
+        return new JedisPool(jedisPoolConfig, host, port, timeout, null, database);
     }
 
     @Bean

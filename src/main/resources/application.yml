@@ -63,6 +63,7 @@ febs:
     batch:
       insert:
         num: 1000
+  # 对应com.leqiang222.febs.common.properties.ShiroProperties
   shiro:
     # 后端免认证接口 url
     anonUrl: /login,/logout/**,/regist,/user/check/**,/menu/**

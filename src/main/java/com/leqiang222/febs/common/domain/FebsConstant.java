@@ -7,12 +7,6 @@ package com.leqiang222.febs.common.domain;
  * @Modified By:
  */
 public class FebsConstant {
-//    // token缓存前缀
-//    public static final String TOKEN_CACHE_PREFIX = "febs.cache.token.";
-//
-//    // 存储在线用户的 zset前缀
-//    public static final String ACTIVE_USERS_ZSET_PREFIX = "febs.user.active";
-
     // user缓存前缀
     public static final String USER_CACHE_PREFIX = "febs.cache.user.";
     // user角色缓存前缀
