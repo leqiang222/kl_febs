@@ -12,6 +12,7 @@ import com.leqiang222.febs.common.exception.FebsException;
 import com.leqiang222.febs.common.properties.FebsProperties;
 import com.leqiang222.febs.common.service.RedisService;
 import com.leqiang222.febs.common.utils.*;
+import com.leqiang222.febs.system.dao.LoginLogMapper;
 import com.leqiang222.febs.system.domain.LoginLog;
 import com.leqiang222.febs.system.domain.User;
 import com.leqiang222.febs.system.domain.UserConfig;
@@ -28,6 +29,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.validation.constraints.NotBlank;
 import java.time.LocalDateTime;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -52,6 +54,8 @@ public class LoginController {
     private FebsProperties properties;
     @Autowired
     private ObjectMapper mapper;
+    @Autowired
+    private LoginLogMapper loginLogMapper;
 
     private String saveTokenToRedis(User user, JWTToken token, HttpServletRequest request) throws Exception {
         String ip = IPUtil.getIpAddr(request);
@@ -168,6 +172,26 @@ public class LoginController {
     @GetMapping("logout/{id}")
     public void logout(@NotBlank(message = "{required}") @PathVariable String id) throws Exception {
         this.kickout(id);
+    }
+
+    @GetMapping("index/{username}")
+    public FebsResponse index(@NotBlank(message = "{required}") @PathVariable String username) {
+        Map<String, Object> data = new HashMap<>();
+        // 获取系统访问记录
+        Long totalVisitCount = loginLogMapper.findTotalVisitCount();
+        data.put("totalVisitCount", totalVisitCount);
+        Long todayVisitCount = loginLogMapper.findTodayVisitCount();
+        data.put("todayVisitCount", todayVisitCount);
+        Long todayIp = loginLogMapper.findTodayIp();
+        data.put("todayIp", todayIp);
+        // 获取近期系统访问记录
+        List<Map<String, Object>> lastSevenVisitCount = loginLogMapper.findLastSevenDaysVisitCount(null);
+        data.put("lastSevenVisitCount", lastSevenVisitCount);
+        User param = new User();
+        param.setUsername(username);
+        List<Map<String, Object>> lastSevenUserVisitCount = loginLogMapper.findLastSevenDaysVisitCount(param);
+        data.put("lastSevenUserVisitCount", lastSevenUserVisitCount);
+        return new FebsResponse().data(data);
     }
 
 //    @PostMapping("regist")
