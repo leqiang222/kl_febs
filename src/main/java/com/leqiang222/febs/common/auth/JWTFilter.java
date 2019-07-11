@@ -76,6 +76,7 @@ public class JWTFilter extends BasicHttpAuthenticationFilter {
     protected boolean executeLogin(ServletRequest request, ServletResponse response) {
         HttpServletRequest httpServletRequest = (HttpServletRequest) request;
         String token = httpServletRequest.getHeader(TOKEN);
+        // token解密
         JWTToken jwtToken = new JWTToken(FebsUtil.decryptToken(token));
         try {
             getSubject(request, response).login(jwtToken);
@@ -116,7 +117,7 @@ public class JWTFilter extends BasicHttpAuthenticationFilter {
 //            String responseJson = "{\"message\":\"" + message + "\"}";
             FebsResponse febsResponse = new FebsResponse();
             febsResponse.put("code", "401");
-            febsResponse.put("message", "未认证，请在前端系统进行认证");
+            febsResponse.put("message", message);
             JSONObject jsonObject = new JSONObject();
             String responseJson = jsonObject.toJSONString(febsResponse);
             out.print(responseJson);

@@ -25,7 +25,7 @@ import java.util.Set;
 /**
  * @Author LeQiang Li
  * @Date Created in 13:54 2019/7/11
- * @Description: 全局异常拦截器
+ * @Description: 全局异常拦截器（捕获controller抛出的异常）
  * @Modified By:
  */
 @Slf4j

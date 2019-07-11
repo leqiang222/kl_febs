@@ -113,4 +113,20 @@ public class UserManager {
         });
         return TreeUtil.buildVueRouter(routes);
     }
+
+    /**
+     * 将用户相关信息添加到 Redis缓存中
+     *
+     * @param user user
+     */
+    public void loadUserRedisCache(User user) throws Exception {
+        // 缓存用户
+        cacheService.saveUser(user.getUsername());
+        // 缓存用户角色
+        cacheService.saveRoles(user.getUsername());
+        // 缓存用户权限
+        cacheService.savePermissions(user.getUsername());
+        // 缓存用户个性化配置
+        cacheService.saveUserConfigs(String.valueOf(user.getUserId()));
+    }
 }

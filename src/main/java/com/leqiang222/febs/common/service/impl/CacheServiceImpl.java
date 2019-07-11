@@ -115,7 +115,6 @@ public class CacheServiceImpl implements CacheService {
             this.deleteRoles(username);
             redisService.set(FebsConstant.USER_ROLE_CACHE_PREFIX + username, mapper.writeValueAsString(roleList));
         }
-
     }
 
     @Override
