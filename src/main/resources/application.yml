@@ -66,8 +66,7 @@ febs:
   # 对应com.leqiang222.febs.common.properties.ShiroProperties
   shiro:
     # 后端免认证接口 url
-    #anonUrl: /login,/logout/**,/regist,/user/check/**,/menu/**,/index/**
-    anonUrl: /login,/logout/**,/regist,/user/check/**,/menu/**,/index/**,/user/**,/role/**,/movie/**,/article/**
+    anonUrl: /login,/logout/**,/regist,/user/check/**
     # token有效期，单位秒
     jwtTimeOut: 3600
 

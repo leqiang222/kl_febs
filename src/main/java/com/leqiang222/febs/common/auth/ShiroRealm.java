@@ -33,6 +33,15 @@ public class ShiroRealm extends AuthorizingRealm {
     @Autowired
     private RedisService redisService;
 
+    /*
+     *  每一个Ream都有一个supports方法，用于检测是否支持此Token,
+     *  这里只对JWTToken类型发token进行校验，其他均校验不通过，即没有该权限
+     */
+    @Override
+    public boolean supports(AuthenticationToken token) {
+        return token instanceof JWTToken;
+    }
+
     /**
      * 授权模块，获取用户角色和权限
      *
