@@ -38,7 +38,7 @@ public class AddressUtil {
             method = searcher.getClass().getMethod("btreeSearch", String.class);
             DataBlock dataBlock = null;
             if (!Util.isIpAddress(ip)) {
-                log.error("Error: Invalid ip address");
+                log.error("Error: Invalid UserManagerip address");
             }
             dataBlock = (DataBlock) method.invoke(searcher, ip);
             return dataBlock.getRegion();

@@ -109,9 +109,10 @@ public class LoginController {
 
     @PostMapping("/login")
     @Limit(key = "login", period = 60, count = 20, name = "登录接口", prefix = "limit")
-    public FebsResponse login(
-            @NotBlank(message = "{required}") String username,
-            @NotBlank(message = "{required}") String password, HttpServletRequest request) throws Exception {
+    public FebsResponse login( @NotBlank(message = "{required}") String username,
+                               @NotBlank(message = "{required}") String password,
+                               HttpServletRequest request) throws Exception
+    {
         username = StringUtils.lowerCase(username);
         password = MD5Util.encrypt(username, password);
 

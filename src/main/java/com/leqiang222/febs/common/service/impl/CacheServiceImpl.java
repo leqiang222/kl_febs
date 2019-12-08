@@ -18,6 +18,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -76,13 +77,14 @@ public class CacheServiceImpl implements CacheService {
 
     @Override
     public List<Menu> getPermissions(String username) throws Exception {
-        String permissionListString = this.redisService.get(FebsConstant.USER_PERMISSION_CACHE_PREFIX + username);
-        if (StringUtils.isBlank(permissionListString)) {
-            throw new Exception();
-        } else {
-            JavaType type = mapper.getTypeFactory().constructParametricType(List.class, Menu.class);
-            return this.mapper.readValue(permissionListString, type);
-        }
+//        String permissionListString = this.redisService.get(FebsConstant.USER_PERMISSION_CACHE_PREFIX + username);
+//        if (StringUtils.isBlank(permissionListString)) {
+//            throw new Exception();
+//        } else {
+//            JavaType type = mapper.getTypeFactory().constructParametricType(List.class, Menu.class);
+//            return this.mapper.readValue(permissionListString, type);
+//        }
+        return new ArrayList<>();
     }
 
     @Override

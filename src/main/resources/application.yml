@@ -25,9 +25,9 @@ spring:
     date-format: yyyy-MM-dd HH:mm:ss
     time-zone: GMT+8
   redis:
-      host: 192.168.0.4
-      port: 56379
-      password: jl2012
+      host: 127.0.0.1
+      port: 6379
+      password:
       jedis:
         pool:
           min-idle: 8
@@ -44,7 +44,7 @@ mybatis-plus:
   configuration:
     jdbc-type-for-null: null
   global-config:
-    # 关闭 mybatis-plus的 banner
+    #关闭 mybatis-plus的 banner
     banner: false
 
 

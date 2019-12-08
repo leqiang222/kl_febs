@@ -2,7 +2,6 @@ package com.leqiang222.febs.system.dao;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.leqiang222.febs.system.domain.Menu;
-import com.leqiang222.febs.system.domain.Role;
 
 import java.util.List;
 
