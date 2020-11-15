@@ -6,6 +6,7 @@ import com.leqiang222.febs.common.exception.FebsException;
 import com.leqiang222.febs.common.exception.LimitAccessException;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.ibatis.javassist.NotFoundException;
 import org.apache.shiro.authz.UnauthorizedException;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
@@ -34,7 +35,7 @@ import java.util.Set;
 public class GlobalExceptionHandler {
 
     /*
-     * http500 服务器异常
+     * http500 服务器异常，系统抛出的异常
      */
     @ExceptionHandler(value = Exception.class)
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
@@ -44,7 +45,7 @@ public class GlobalExceptionHandler {
     }
 
     /*
-     * http500 服务器异常
+     * http500 服务器异常，自己抛出的异常
      */
     @ExceptionHandler(value = FebsException.class)
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
@@ -61,6 +62,17 @@ public class GlobalExceptionHandler {
     public FebsResponse handleLimitAccessException(LimitAccessException e) {
         log.warn(e.getMessage());
         return new FebsResponse().message(e.getMessage());
+    }
+
+    /*
+     * http404
+     */
+    @ExceptionHandler(value = NotFoundException.class)
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    public FebsResponse handleNotFoundException(NotFoundException e) {
+        String message = "请求资源不存在，请检查路径是否正确或是否已发布该资源";
+        log.error("message");
+        return new FebsResponse().message(message);
     }
 
     /*
@@ -111,6 +123,7 @@ public class GlobalExceptionHandler {
         message = new StringBuilder(message.substring(0, message.length() - 1));
         return new FebsResponse().message(message.toString());
     }
+
 
 
 }

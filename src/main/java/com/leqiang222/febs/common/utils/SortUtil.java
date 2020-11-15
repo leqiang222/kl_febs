@@ -1,9 +1,8 @@
 package com.leqiang222.febs.common.utils;
 
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.leqiang222.febs.common.domain.FebsConstant;
-import com.leqiang222.febs.common.domain.QueryRequest;
+import com.leqiang222.febs.common.domain.QueryRequestParam;
 import org.apache.commons.lang3.StringUtils;
 
 /**
@@ -22,7 +21,7 @@ public class SortUtil {
      * @param defaultOrder      默认排序规则
      * @param camelToUnderscore 是否开启驼峰转下划线
      */
-    public static void handlePageSort(QueryRequest request, Page page, String defaultSort, String defaultOrder, boolean camelToUnderscore) {
+    public static void handlePageSort(QueryRequestParam request, Page page, String defaultSort, String defaultOrder, boolean camelToUnderscore) {
         page.setCurrent(request.getPageNum());
         page.setSize(request.getPageSize());
         String sortField = request.getSortField();
@@ -57,7 +56,7 @@ public class SortUtil {
      * @param request QueryRequest
      * @param page    Page
      */
-    public static void handlePageSort(QueryRequest request, Page page) {
+    public static void handlePageSort(QueryRequestParam request, Page page) {
         handlePageSort(request, page, null, null, false);
     }
 
@@ -68,7 +67,7 @@ public class SortUtil {
      * @param page              Page
      * @param camelToUnderscore 是否开启驼峰转下划线
      */
-    public static void handlePageSort(QueryRequest request, Page page, boolean camelToUnderscore) {
+    public static void handlePageSort(QueryRequestParam request, Page page, boolean camelToUnderscore) {
         handlePageSort(request, page, null, null, camelToUnderscore);
     }
 }

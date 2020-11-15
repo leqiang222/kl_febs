@@ -1,7 +1,7 @@
 package com.leqiang222.febs.system.controller;
 
 import com.leqiang222.febs.common.controller.BaseController;
-import com.leqiang222.febs.common.domain.QueryRequest;
+import com.leqiang222.febs.common.domain.QueryRequestParam;
 import com.leqiang222.febs.system.domain.Role;
 import com.leqiang222.febs.system.service.RoleService;
 import lombok.extern.slf4j.Slf4j;
@@ -30,7 +30,7 @@ public class RoleController extends BaseController {
 
     @GetMapping
     @RequiresPermissions("role:view")
-    public Map<String, Object> roleList(QueryRequest queryRequest, Role role) {
-        return getDataTable(roleService.findRoles(role, queryRequest));
+    public Map<String, Object> roleList(QueryRequestParam queryRequestParam, Role role) {
+        return getDataTable(roleService.findRoles(role, queryRequestParam));
     }
 }

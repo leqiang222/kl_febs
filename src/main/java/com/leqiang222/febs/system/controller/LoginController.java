@@ -57,6 +57,14 @@ public class LoginController {
     @Autowired
     private LoginLogMapper loginLogMapper;
 
+    /**
+     * 保存token到redis
+     * @param user
+     * @param token
+     * @param request
+     * @return
+     * @throws Exception
+     */
     private String saveTokenToRedis(User user, JWTToken token, HttpServletRequest request) throws Exception {
         String ip = IPUtil.getIpAddr(request);
 
@@ -88,7 +96,9 @@ public class LoginController {
      * @return UserInfo
      */
     private Map<String, Object> generateUserInfo(JWTToken token, User user) {
+        //
         String username = user.getUsername();
+
         Map<String, Object> userInfo = new HashMap<>();
         userInfo.put("token", token.getToken());
         userInfo.put("exipreTime", token.getExipreAt());
@@ -104,6 +114,7 @@ public class LoginController {
 
         user.setPassword("it's a secret");
         userInfo.put("user", user);
+
         return userInfo;
     }
 
@@ -116,34 +127,41 @@ public class LoginController {
         username = StringUtils.lowerCase(username);
         password = MD5Util.encrypt(username, password);
 
-        final String errorMessage = "用户名或密码错误";
         User user = this.userManager.getUser(username);
 
+        // 1.1 没有该账号
         if (user == null) {
-            throw new FebsException(errorMessage);
+            throw new FebsException("用户不存在");
         }
+        // 1.2 密码错误
         if (!StringUtils.equals(user.getPassword(), password)) {
-            throw new FebsException(errorMessage);
+            throw new FebsException("密码不正确");
         }
+        // 1.3 账号已被锁定
         if (User.STATUS_LOCK.equals(user.getStatus())) {
             throw new FebsException("账号已被锁定,请联系管理员！");
         }
 
-        // 更新用户登录时间
+        // 2.1 更新用户登录时间
         this.userService.updateLoginTime(username);
-        // 保存登录记录
+
+        // 3.1 保存登录记录
         LoginLog loginLog = new LoginLog();
         loginLog.setUsername(username);
         this.loginLogService.saveLoginLog(loginLog);
 
+        // 4.1 生成token实体类
         String token = FebsUtil.encryptToken(JWTUtil.sign(username, password));
         LocalDateTime expireTime = LocalDateTime.now().plusSeconds(properties.getShiro().getJwtTimeOut());
         String expireTimeStr = DateUtil.formatFullTime(expireTime);
+
         JWTToken jwtToken = new JWTToken(token, expireTimeStr);
 
+        // 4.2 保存token到redis
         String userId = this.saveTokenToRedis(user, jwtToken, request);
         user.setId(userId);
 
+        // 5
         Map<String, Object> userInfo = this.generateUserInfo(jwtToken, user);
         return new FebsResponse().message("认证成功").data(userInfo);
     }
@@ -174,6 +192,7 @@ public class LoginController {
     public void logout(@NotBlank(message = "{required}") @PathVariable String id) throws Exception {
         this.kickout(id);
     }
+
 
     @GetMapping("index/{username}")
     public FebsResponse index(@NotBlank(message = "{required}") @PathVariable String username) {

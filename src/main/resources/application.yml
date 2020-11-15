@@ -68,7 +68,7 @@ febs:
     # 后端免认证接口 url
     anonUrl: /login,/logout/**,/regist,/user/check/**
     # token有效期，单位秒
-    jwtTimeOut: 3600
+    jwtTimeOut: 36000
 
 
 

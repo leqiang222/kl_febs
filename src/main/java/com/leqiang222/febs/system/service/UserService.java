@@ -2,7 +2,7 @@ package com.leqiang222.febs.system.service;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.leqiang222.febs.common.domain.QueryRequest;
+import com.leqiang222.febs.common.domain.QueryRequestParam;
 import com.leqiang222.febs.system.domain.User;
 
 /**
@@ -31,10 +31,10 @@ public interface UserService extends IService<User> {
      * 查询用户详情，包括基本信息，用户角色，用户部门
      *
      * @param user user
-     * @param queryRequest queryRequest
+     * @param queryRequestParam queryRequest
      * @return IPage
      */
-    IPage<User> findUserDetail(User user, QueryRequest queryRequest);
+    IPage<User> findUserDetail(User user, QueryRequestParam queryRequestParam);
 
     /**
      * 注册用户

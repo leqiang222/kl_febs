@@ -9,7 +9,7 @@ import lombok.Data;
  * @Modified By:
  */
 @Data
-public class QueryRequest extends BaseDomain {
+public class QueryRequestParam extends BaseDomain {
     private int pageSize = 10;
     private int pageNum = 1;
 

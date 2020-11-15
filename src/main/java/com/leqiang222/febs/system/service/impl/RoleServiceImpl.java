@@ -4,7 +4,7 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.leqiang222.febs.common.domain.QueryRequest;
+import com.leqiang222.febs.common.domain.QueryRequestParam;
 import com.leqiang222.febs.common.utils.SortUtil;
 import com.leqiang222.febs.system.dao.RoleMapper;
 import com.leqiang222.febs.system.domain.Role;
@@ -33,7 +33,7 @@ public class RoleServiceImpl extends ServiceImpl<RoleMapper, Role> implements Ro
     }
 
     @Override
-    public IPage<Role> findRoles(Role role, QueryRequest request) {
+    public IPage<Role> findRoles(Role role, QueryRequestParam request) {
         try {
             LambdaQueryWrapper<Role> queryWrapper = new LambdaQueryWrapper<>();
 

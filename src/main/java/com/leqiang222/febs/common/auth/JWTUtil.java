@@ -32,9 +32,7 @@ public class JWTUtil {
     public static boolean verify(String token, String username, String secret) {
         try {
             Algorithm algorithm = Algorithm.HMAC256(secret);
-            JWTVerifier verifier = JWT.require(algorithm)
-                    .withClaim("username", username)
-                    .build();
+            JWTVerifier verifier = JWT.require(algorithm).withClaim("username", username).build();
             verifier.verify(token);
             log.info("token is valid");
             return true;
@@ -45,7 +43,7 @@ public class JWTUtil {
     }
 
     /**
-     * 从 token中获取用户名 llq-为什么这里能从token中获取用户名
+     * 从 token中获取用户名 todo-为什么这里能从token中获取用户名
      *
      * @return token中包含的用户名
      */

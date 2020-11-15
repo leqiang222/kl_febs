@@ -2,7 +2,7 @@ package com.leqiang222.febs.system.controller;
 
 import com.leqiang222.febs.common.controller.BaseController;
 import com.leqiang222.febs.common.domain.FebsResponse;
-import com.leqiang222.febs.common.domain.QueryRequest;
+import com.leqiang222.febs.common.domain.QueryRequestParam;
 import com.leqiang222.febs.system.domain.User;
 import com.leqiang222.febs.system.service.UserService;
 import lombok.extern.slf4j.Slf4j;
@@ -29,12 +29,12 @@ public class UserController extends BaseController {
 
     @GetMapping
     @RequiresPermissions("user:view")
-    public Map<String, Object> userList(QueryRequest queryRequest, User user) {
-        return getDataTable(userService.findUserDetail(user, queryRequest));
+    public Map<String, Object> userList(QueryRequestParam queryRequestParam, User user) {
+        return getDataTable(userService.findUserDetail(user, queryRequestParam));
     }
 
     @PutMapping("profile")
-    public FebsResponse saveProfile(QueryRequest queryRequest, User user) {
+    public FebsResponse saveProfile(QueryRequestParam queryRequestParam, User user) {
         boolean result =  userService.updateById(user);
 
         String message = result? "修改成功": "修改失败";

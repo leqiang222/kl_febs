@@ -5,13 +5,11 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.leqiang222.febs.common.domain.FebsConstant;
-import com.leqiang222.febs.common.domain.QueryRequest;
+import com.leqiang222.febs.common.domain.QueryRequestParam;
 import com.leqiang222.febs.common.service.CacheService;
-import com.leqiang222.febs.common.utils.MD5Util;
 import com.leqiang222.febs.common.utils.SortUtil;
 import com.leqiang222.febs.system.dao.UserMapper;
 import com.leqiang222.febs.system.domain.User;
-import com.leqiang222.febs.system.domain.UserRole;
 import com.leqiang222.febs.system.manager.UserManager;
 import com.leqiang222.febs.system.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,12 +40,12 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
     }
 
     @Override
-    public IPage<User> findUserDetail(User user, QueryRequest queryRequest) {
+    public IPage<User> findUserDetail(User user, QueryRequestParam queryRequestParam) {
         //
         Page<User> page = new Page<>();
 
         // 给page赋一些排序的值
-        SortUtil.handlePageSort(queryRequest, page, "userId", FebsConstant.ORDER_ASC, false);
+        SortUtil.handlePageSort(queryRequestParam, page, "userId", FebsConstant.ORDER_ASC, false);
 
         //
         return this.baseMapper.findUserDetail(page, user);

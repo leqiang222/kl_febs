@@ -2,7 +2,6 @@ package com.leqiang222.febs.common.auth;
 
 import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.core.toolkit.StringPool;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.leqiang222.febs.common.domain.FebsResponse;
 import com.leqiang222.febs.common.properties.FebsProperties;
 import com.leqiang222.febs.common.utils.FebsUtil;
@@ -26,7 +25,7 @@ import java.io.PrintWriter;
 /**
  * @Author LeQiang Li
  * @Date Created in 10:02 2019/7/8
- * @Description: 拦截器
+ * @Description: token拦截器
  * @Modified By:
  */
 @Slf4j
@@ -37,6 +36,7 @@ public class JWTFilter extends BasicHttpAuthenticationFilter {
 
     /*
      * 是否允许访问
+     * true表示有权限访问
      */
     @Override
     protected boolean isAccessAllowed(ServletRequest request, ServletResponse response, Object mappedValue) throws UnauthorizedException {
@@ -55,22 +55,24 @@ public class JWTFilter extends BasicHttpAuthenticationFilter {
         }
 
         // 请求头是否有token
-        if (isLoginAttempt(request, response)) {
-            return executeLogin(request, response);
+        boolean isHadToken = isHadToken(request, response);
+        if (!isHadToken) {
+            return false;
         }
-        return false;
+
+        return executeLogin(request, response);
     }
 
     /*
      * 请求头是否有token来判断是否需要重新登录
      */
-    @Override
-    protected boolean isLoginAttempt(ServletRequest request, ServletResponse response) {
+    protected boolean isHadToken(ServletRequest request, ServletResponse response) {
         HttpServletRequest req = (HttpServletRequest) request;
 
         String token = req.getHeader(TOKEN);
         return token != null;
     }
+
 
     @Override
     protected boolean executeLogin(ServletRequest request, ServletResponse response) {
@@ -88,7 +90,7 @@ public class JWTFilter extends BasicHttpAuthenticationFilter {
     }
 
     /**
-     * 对跨域提供支持
+     * 对跨域提供支持 todo
      */
     @Override
     protected boolean preHandle(ServletRequest request, ServletResponse response) throws Exception {
@@ -105,6 +107,7 @@ public class JWTFilter extends BasicHttpAuthenticationFilter {
         return super.preHandle(request, response);
     }
 
+    // TODO
     @Override
     protected boolean sendChallenge(ServletRequest request, ServletResponse response) {
         log.debug("Authentication required: sending 401 Authentication challenge response.");
